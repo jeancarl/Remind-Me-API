@@ -1,0 +1,67 @@
+FORMAT: 1A
+HOST: http://0.0.0.0:8080/
+
+# Remind Me
+
+Remind Me is an API to set up reminders.
+
+## Group Phone
+
+### Reminders [GET /api/phone/{phone_number}/reminders]
+
+Returns queued reminders for specified phone number
+
++ Parameters
+    + phone_number (required, string, `0000000000`) phone number to find reminders for
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"reminders":[{"id":"55b6858b50f3e68f4d48dd41","message":"testing","sendon":"2018-07-31 06:38:48"}]}
+
+## Group Reminders
+
+Reminders represent messages that are sent to a phone number at a specified time.
+
+A Reminder consists of the following:
+- message (string) the message to SMS
+- to (string) the phone number to send the SMS to
+- sendon (string) the date and time when the SMS should be sent
+
+### Get reminder details [GET /api/reminders/{reminder_id}]
+
+Returns the details of the reminder, including the message to be sent, where the SMS will be sent to, and when the SMS will be sent.
+
++ Parameters
+    + reminder_id (required, string, `55b6858b50f3e68f4d48dd41`) ID of the reminder
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"id":"55b6858b50f3e68f4d48dd41","message":"testing","to":"0000000000"}
+
+
+### Create a reminder [POST /api/reminders]
+
+Create a reminder that will send a message to the specified phone number on the specified date.
+
++ Request (application/json)
+
+    + Body
+    
+            {"message":"testing","to":"0000000000","sendon":"2018-07-27 13:00:00"}
+        
++ Response 200 (application/json; charset=utf-8)
+
+        {"id":"55b6858b50f3e68f4d48dd41","message":"testing","to":"0000000000"}
+
+### Cancel a reminder [POST /api/reminders/{reminder_id}/remove]
+
+Removes the reminder from the queue so that it is not sent.
+
++ Parameters
+    + reminder_id (required, string, `55b6858b50f3e68f4d48dd41`) ID of the reminder
+
++ Request (application/json)
+
++ Response 200 (application/json; charset=utf-8)
+
+        {"status":"success"}
